@@ -8,9 +8,38 @@
 	<title>Agenda de Eventos</title>
 </h:head>
 <h:body>
-<h:form>
-<p:schedule widgetVar="meuCalendario" value="#{eventoBean.eventModel}" id="schEvento">
-</p:schedule>
-</h:form>
+	<h:form>
+		<p:schedule widgetVar="meuCalendario" value="#{eventoBean.eventModel}"
+			id="schEvento">
+			<p:ajax event="eventSelect"
+				listener="#{eventoBean.quandoSelecionado}" update="eventoDetalhe"
+				oncomplete="PF('caixaDialog').show();" />
+		</p:schedule>
+		<p:dialog widgetVar="caixaDialog" header="Evento" resizable="false"
+			modal="true" showEffect="clip">
+			<p:outputPanel id="eventoDetalhe">
+				<h:panelGrid columns="2">
+				
+					<p:outputLabel value="Título:" />
+					<p:inputText value="#{eventoBean.evento.titutloEvento}" />
+					
+					<p:outputLabel value="Início:" />
+					<p:calendar value="#{eventoBean.evento.inicioEvento}" />
+					
+					<p:outputLabel value="Fim:" />
+					<p:calendar validator="#{eventoBean.evento.fimEvento}" />
+					
+					<p:outputLabel value="Status:" />
+					<p:selectBooleanCheckbox value="#{eventoBean.evento.statusEvento}" />
+					
+					<p:outputLabel value="Descrição:" />
+					<p:inputText value="#{eventoBean.evento.descEvento}" />
+					
+				</h:panelGrid>
+				<p:separator />
+				<p:commandButton value="Salvar" />
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
 </h:body>
 </html>

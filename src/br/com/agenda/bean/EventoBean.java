@@ -7,8 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 import br.com.agenda.DAO.EventoDAO;
@@ -58,7 +60,7 @@ public class EventoBean implements Serializable {
 	}
 
 	@PostConstruct
-	private void inicializar() {
+	public void inicializar() {
 
 		eDAO = new EventoDAO();
 		evento = new Evento();
@@ -68,8 +70,8 @@ public class EventoBean implements Serializable {
 
 		for (Evento ev : listaEvento) {
 			DefaultScheduleEvent evt = new DefaultScheduleEvent();
-			evt.setStartDate(ev.getInicioEvento());
-			evt.setEndDate(ev.getFimEvento());
+			evt.setStartDate(ev.getInicioEvento());	
+			evt.setEndDate(ev.getFimEvento());				
 			evt.setTitle(ev.getTitutloEvento());
 			evt.setData(ev.getIdEvento());
 			evt.setDescription(ev.getDescEvento());
@@ -80,4 +82,14 @@ public class EventoBean implements Serializable {
 
 	}
 
+	public void quandoSelecionado(SelectEvent selectEvent) {
+		ScheduleEvent eventoClicado = (ScheduleEvent) selectEvent.getObject();
+		for (Evento elemento : listaEvento) {
+			if (elemento.getIdEvento() == (Long) eventoClicado.getData()) {
+				evento = elemento;
+				break;
+			}
+		}
+	}
+	
 }
