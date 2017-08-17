@@ -1,11 +1,14 @@
-package br.com.agenda.dao;
+package br.com.agenda.DAO;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import br.com.agenda.modelo.Evento;
+import br.com.agenda.model.Evento;
 import br.com.agenda.util.ConnectionFactory;
 
 public class EventoDAO {
@@ -63,6 +66,33 @@ public class EventoDAO {
 			e.printStackTrace();
 		}
 		ConnectionFactory.desconectar(conexao);
+	}
+
+	public List<Evento> listar() {
+		List<Evento> eventos = new ArrayList<Evento>();
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT id_evento, titulo_evento, inicio_evento, fim_evento, desc_evento, status_evento ");
+		sql.append("FROM agenda.evento;");
+		Connection conexao = ConnectionFactory.conectar();
+		try {
+			PreparedStatement comando = conexao.prepareStatement(sql.toString());
+			ResultSet resultado = comando.executeQuery();
+			ConnectionFactory.desconectar(conexao);
+			while (resultado.next()) {
+				Evento item = new Evento();
+				item.setIdEvento(resultado.getLong("id_evento"));
+				item.setTitutloEvento(resultado.getString("titulo_evento"));
+				item.setInicioEvento(resultado.getDate("inicio_evento"));
+				item.setFimEvento(resultado.getDate("fim_evento"));
+				item.setDescEvento(resultado.getString("desc_evento"));
+				item.setStatusEvento(resultado.getBoolean("status_evento"));
+				eventos.add(item);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Erro ao carregar a listagem de eventos!");
+		}
+		return eventos;
 	}
 
 }
