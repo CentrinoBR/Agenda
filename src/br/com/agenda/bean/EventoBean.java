@@ -64,7 +64,7 @@ public class EventoBean implements Serializable {
 		evento = new Evento();
 		eventModel = new DefaultScheduleModel();
 
-		listaEvento = eDAO.listar();
+		listaEvento = eDAO.listar();		
 
 		for (Evento ev : listaEvento) {
 			DefaultScheduleEvent evt = new DefaultScheduleEvent();
