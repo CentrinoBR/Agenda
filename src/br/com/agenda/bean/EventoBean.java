@@ -1,6 +1,7 @@
 package br.com.agenda.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -90,6 +91,12 @@ public class EventoBean implements Serializable {
 				break;
 			}
 		}
+	}
+	
+	public void quandoCriar (SelectEvent selectEvent) {
+		ScheduleEvent event = new DefaultScheduleEvent("",(Date)selectEvent.getObject(), (Date)selectEvent.getObject());
+		evento = new Evento();
+		https://www.youtube.com/watch?v=XeopKGF1M7Y
 	}
 	
 }
